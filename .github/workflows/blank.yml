@@ -1,0 +1,33 @@
+name: "PR Checks"
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - labeled
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: pr-checks-${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+
+  unit-label-check:
+    name: "Label Check [CI:UnitTests]"
+    runs-on: [self-hosted, Linux, medium, ephemeral]
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'CI:UnitTests') || contains(github.event.pull_request.labels.*.name, 'CI:FinalChecks') }}
+    steps:
+      - name: Check Labels
+        uses: jesusvasquez333/verify-pr-label-action@v1.4.0
+        if: github.event_name == 'pull_request'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          valid-labels: "CI:UnitTests, CI:FinalChecks"
+          pull-request-number: '${{ github.event.pull_request.number }}'
+          disable-reviews: true
