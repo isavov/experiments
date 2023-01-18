@@ -25,7 +25,7 @@ jobs:
   unit-label-check:
     name: "Label Check [CI:UnitTests]"
     runs-on: ubuntu-latest
-    if: ${{ contains(github.event.pull_request_target.labels.*.name, 'CI:UnitTests') || contains(github.event.pull_request_target.labels.*.name, 'CI:FinalChecks') }}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'CI:UnitTests') || contains(github.event.pull_request.labels.*.name, 'CI:FinalChecks') }}
     steps:
       - name: Check Labels
         uses: jesusvasquez333/verify-pr-label-action@v1.4.0
