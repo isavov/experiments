@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Debug the job
     steps:
-      - run: echo ${{github.event}}
+      - uses: hmarr/debug-action@v2
   unit-label-check:
     name: "Label Check [CI:UnitTests]"
     runs-on: ubuntu-latest
