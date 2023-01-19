@@ -28,10 +28,5 @@ jobs:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'CI:UnitTests') || contains(github.event.pull_request.labels.*.name, 'CI:FinalChecks') }}
     steps:
       - name: Check Labels
-        uses: jesusvasquez333/verify-pr-label-action@v1.4.0
         if: github.event_name == 'pull_request_target'
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          valid-labels: "CI:UnitTests, CI:FinalChecks"
-          pull-request-number: '${{ github.event.pull_request.number }}'
-          disable-reviews: true
+        run: echo Labels that trigger this build are [CI:UnitTests] and [CI:FinalChecks] 
